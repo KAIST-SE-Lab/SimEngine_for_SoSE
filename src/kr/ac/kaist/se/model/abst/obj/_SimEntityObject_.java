@@ -1,4 +1,6 @@
 package kr.ac.kaist.se.model.abst.obj;
 
-public abstract class _SimEntityObject_ extends _SimObject_{
+import kr.ac.kaist.se.model.intf.Communicateable;
+
+public abstract class _SimEntityObject_ extends _SimObject_ implements Communicateable {
 }

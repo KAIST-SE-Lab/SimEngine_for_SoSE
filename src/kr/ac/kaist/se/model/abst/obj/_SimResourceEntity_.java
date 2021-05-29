@@ -1,4 +1,6 @@
 package kr.ac.kaist.se.model.abst.obj;
 
-public abstract class _SimResourceEntity_ extends _SimNonActionableEntity_{
+import kr.ac.kaist.se.model.intf.Occupiable;
+
+public abstract class _SimResourceEntity_ extends _SimNonActionableEntity_ implements Occupiable {
 }

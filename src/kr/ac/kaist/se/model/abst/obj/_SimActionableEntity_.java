@@ -1,4 +1,6 @@
 package kr.ac.kaist.se.model.abst.obj;
 
-public abstract class _SimActionableEntity_ extends _SimEntityObject_{
+import kr.ac.kaist.se.model.intf.Actionable;
+
+public abstract class _SimActionableEntity_ extends _SimEntityObject_ implements Actionable {
 }

@@ -1,8 +1,8 @@
-package kr.ac.kaist.se.controller.util.map;
+package kr.ac.kaist.se.controller.util.configuration;
 
 import java.sql.Timestamp;
 
-public class MapFileReader {
+public class ConfigurationManager {
 
     /* Timestamp for Logging/Snapshots */
     private Timestamp timestamp;

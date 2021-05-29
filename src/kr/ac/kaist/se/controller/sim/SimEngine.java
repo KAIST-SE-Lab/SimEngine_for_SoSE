@@ -12,4 +12,10 @@ package kr.ac.kaist.se.controller.sim;
  */
 public class SimEngine {
 
+    //TODO: void -> SimLog
+    public void startSimulation(){
+        System.out.println("SIMULATION STARTED");
+
+        System.out.println("SIMULATION FINISHED/TERMINATED");
+    }
 }

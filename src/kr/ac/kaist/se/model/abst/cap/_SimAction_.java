@@ -14,12 +14,13 @@ public abstract class _SimAction_ {
     protected SoS accessibleSoS;            //Accessible SimModel (SoS)
     protected _SimObject_ actionSubject;    //Subject who performs this action
 
-    protected String actionId;      //id of action
-    protected String actionName;    //name of action
+    protected String actionId;              //id of action
+    protected String actionName;            //name of action
 
-    protected int actionDuration = -1;  //duration of action execution
-    protected float actionCost = -1;    //cost for action execution
-    protected float actionBenefit = -1; //benefit from action execution
+    protected int actionDuration = -1;      //duration of action execution
+    protected float actionCost = -1;        //cost for action execution
+    protected float actionBenefit = -1;     //benefit from action execution
+
 
     public _SimAction_(SoS accessibleSoS, _SimObject_ actionSubject, String actionId, String actionName) {
         this.accessibleSoS = accessibleSoS;

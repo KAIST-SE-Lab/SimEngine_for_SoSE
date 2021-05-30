@@ -1,4 +1,6 @@
 package kr.ac.kaist.se.model.simmodel.data;
 
-public abstract class DimVarDomain {
+import kr.ac.kaist.se.model.abst.data._SimDomain_;
+
+public abstract class DimVarDomain extends _SimDomain_ {
 }

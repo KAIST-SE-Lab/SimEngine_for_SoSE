@@ -6,9 +6,18 @@ import kr.ac.kaist.se.model.simmodel.SoS;
 
 import java.util.ArrayList;
 
+/**
+ * Abstract class to represent an action object
+ *
+ * In SIMVA-SoS Lite, _SimAction_ can be specialized into FuncAction, MoveAction, CommAction,
+ * but this project only implements MoveAction class to update ObjectLocation of a _SimObject_.
+ * Note that this implementation is independent from the implementation of SIMVA-SoS Lite
+ *
+ * @author ymbaek
+ */
 public abstract class _SimAction_ {
 
-    /* ArrayList to store SimLogEvents of executed actions for return */
+    // ArrayList to store SimLogEvents of executed actions for return
     protected ArrayList<SimLogEvent> actionLogEvents = new ArrayList<>();
 
     protected SoS accessibleSoS;            //Accessible SimModel (SoS)
@@ -61,4 +70,71 @@ public abstract class _SimAction_ {
      */
     public abstract String generateLogEventSpec();
 
+
+
+    /* GETTERS & SETTERS */
+
+    public ArrayList<SimLogEvent> getActionLogEvents() {
+        return actionLogEvents;
+    }
+
+    public void setActionLogEvents(ArrayList<SimLogEvent> actionLogEvents) {
+        this.actionLogEvents = actionLogEvents;
+    }
+
+    public SoS getAccessibleSoS() {
+        return accessibleSoS;
+    }
+
+    public void setAccessibleSoS(SoS accessibleSoS) {
+        this.accessibleSoS = accessibleSoS;
+    }
+
+    public _SimObject_ getActionSubject() {
+        return actionSubject;
+    }
+
+    public void setActionSubject(_SimObject_ actionSubject) {
+        this.actionSubject = actionSubject;
+    }
+
+    public String getActionId() {
+        return actionId;
+    }
+
+    public void setActionId(String actionId) {
+        this.actionId = actionId;
+    }
+
+    public String getActionName() {
+        return actionName;
+    }
+
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
+    }
+
+    public int getActionDuration() {
+        return actionDuration;
+    }
+
+    public void setActionDuration(int actionDuration) {
+        this.actionDuration = actionDuration;
+    }
+
+    public float getActionCost() {
+        return actionCost;
+    }
+
+    public void setActionCost(float actionCost) {
+        this.actionCost = actionCost;
+    }
+
+    public float getActionBenefit() {
+        return actionBenefit;
+    }
+
+    public void setActionBenefit(float actionBenefit) {
+        this.actionBenefit = actionBenefit;
+    }
 }

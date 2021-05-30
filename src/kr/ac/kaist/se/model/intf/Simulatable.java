@@ -16,16 +16,18 @@ public interface Simulatable {
      * The method run() executes own behaviors, such as actions,
      * by selecting actions among capable actions (a set of actions, i.e., actionList).
      *
+     * @param curTick current tick of simulation
      * @return selected actions (result of the action selection)
      */
-    RunResult run();
+    RunResult run(int curTick);
 
 
     /**
      * The method update() actually executes behaviors allowed by the SimEngine.
      *
      * @param runResult runResult object (i.e., actions allowed to be executed) of current tick
+     * @param curTick current tick of simulation
      * @return list of action execution results (i.e., logs)
      */
-    UpdateResult update(RunResult runResult, int tick);
+    UpdateResult update(RunResult runResult, int curTick);
 }

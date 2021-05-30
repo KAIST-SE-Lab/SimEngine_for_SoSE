@@ -1,6 +1,8 @@
 package kr.ac.kaist.se.controller.sim;
 
 import kr.ac.kaist.se.controller.mape.MapeEngine;
+import kr.ac.kaist.se.controller.util.map.MapManager;
+import kr.ac.kaist.se.controller.util.scenario.ScenarioManager;
 import kr.ac.kaist.se.model.simdata.input.configuration.SimConfiguration;
 import kr.ac.kaist.se.model.simdata.input.rule._SimRule_;
 import kr.ac.kaist.se.model.simdata.input.scenario.SimScenario;
@@ -53,18 +55,22 @@ public class SimEngine {
 
 
     /* Simulation Inputs */
-    private SoS simModel;
-    private SimConfiguration simConfig;
-    private SimScenario simScenario;
-    private ArrayList<_SimRule_> simRules;
+    private SoS simModel;                   // Simulation model
+    private SimConfiguration simConfig;     // Simulation configuration
+    private SimScenario simScenario;        // Simulation scenario
+    private ArrayList<_SimRule_> simRules;  // Rules / Policies
 
-    private boolean isMapeOn;
-    private MapeEngine mapeEngine;
+    private boolean isMapeOn;               // Whether MAPE-loop is executed
+    private MapeEngine mapeEngine;          // MAPE engine
 
     /* Simulation Attributes */
-    private int simTotalTime;
-    private int simCurTick = 0;
+    private int simTotalTime;               // Total time allowed for a single simulation
+    private int simCurTick = 0;             // Current time tick
 
+
+    /* Utilities */
+    private ScenarioManager scenarioManager;
+    private MapManager mapManager;
 
 
     /**
@@ -113,6 +119,8 @@ public class SimEngine {
         /**
          * Discrete event/time simulation
          * curTick: current time tick, simTotalTime: total time allowed for simulation
+         *
+         * For each tick (curTick), PHASE01 ~ PHASE05 are sequentially executed
          */
         for (int curTick = 0; curTick < this.simTotalTime; curTick++){
             simCurTick = curTick;
@@ -121,7 +129,30 @@ public class SimEngine {
             logger.info("[" + this.getClass().getSimpleName() + ":startSimulation()] curSimTick: " + simCurTick);
             System.out.println("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
             logger.info("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
+
+
+            /**
+             * PHASE 01: Execute SimScenarioUnivEvent of a given SimScenario
+             */
+
+            /**
+             * PHASE 02: Collect RunResults by running SimModel (and its objects)
+             */
+
+            /**
+             * PHASE 03: Resolve conflicts of the RunResult of the current tick
+             */
+
+            /**
+             * PHASE 04: Collect communication actions (CommActions) to process message-sending
+             */
+
+            /**
+             * PHASE 05: Update SimModel by actually executing the action objects after resolving conflicts (PHASE03)
+             */
+
         }
+
 
 
         System.out.println("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
@@ -224,6 +255,9 @@ public class SimEngine {
      */
     private void initSimScenario(SimScenario simScenario){
         this.simScenario = simScenario;
+
+        //TODO: Read scenario using ScenarioManager
+        scenarioManager = new ScenarioManager();
     }
 
     /**

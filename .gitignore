@@ -180,7 +180,9 @@ gradle-app.setting
 
 
 # Case example
-src/case
+# src/case
+# src/kr/ac/kaist/se/case
+case/
 
 
 # End of https://www.toptal.com/developers/gitignore/api/java,macos,gradle,intellij

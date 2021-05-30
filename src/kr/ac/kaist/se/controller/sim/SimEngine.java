@@ -1,5 +1,6 @@
 package kr.ac.kaist.se.controller.sim;
 
+import kr.ac.kaist.se.controller.mape.MapeEngine;
 import kr.ac.kaist.se.model.simdata.input.configuration.SimConfiguration;
 import kr.ac.kaist.se.model.simdata.input.rule._SimRule_;
 import kr.ac.kaist.se.model.simdata.input.scenario.SimScenario;
@@ -34,6 +35,9 @@ import java.util.logging.SimpleFormatter;
  */
 public class SimEngine {
 
+    /* Version of this simEngine module */
+    private static String simEngineVer = "ver0.0.10";
+
     /* Timestamp for Logging/Snapshots */
     private Timestamp timestamp;
 
@@ -52,10 +56,14 @@ public class SimEngine {
     private SoS simModel;
     private SimConfiguration simConfig;
     private SimScenario simScenario;
-    private boolean isMapeOn;
     private ArrayList<_SimRule_> simRules;
 
+    private boolean isMapeOn;
+    private MapeEngine mapeEngine;
+
     /* Simulation Attributes */
+    private int simTotalTime;
+    private int simCurTick = 0;
 
 
 
@@ -76,18 +84,16 @@ public class SimEngine {
                      String simMapInitFile,
                      ArrayList<_SimRule_> simRules) {
 
+        // Initialize loggers and write SimEngine information into the log file
         initLogger();
         writeSimEngineInfo();
 
-        if (simModel == null){
-            logger.warning("A simulation model (SimModel) is not given.");
-        }else{
-            this.simModel = simModel;
-            this.isMapeOn = isMapeOn;
-            this.simConfig = simConfiguration;
-            this.simScenario = simScenario;
-            this.simRules = simRules;
-        }
+        // Write/print simEngine version into the log file
+        logger.info("Version of SimEngie: " + simEngineVer);
+        System.out.println("[" + this.getClass().getSimpleName() + "] Version of SimEngie: " + simEngineVer);
+
+        // Initialize simulation engine with inputs
+        initSimEngine(simModel, isMapeOn, simScenario, simConfiguration, simMapInitFile, simRules);
 
     }
 
@@ -97,15 +103,146 @@ public class SimEngine {
      * @return SimLog   log generated during a simulation
      */
     public SimLog startSimulation(){
-        /* Example code for test */
-        System.out.println("SIMULATION STARTED");
 
-        logger.info("Sample Message1");
-        logger.info("Sample Message2");
+        System.out.println("[" + this.getClass().getSimpleName() + ":startSimulation()] SIMULATION STARTED.");
+        logger.info("[" + this.getClass().getSimpleName() + ":startSimulation()] SIMULATION STARTED.");
 
-        System.out.println("SIMULATION FINISHED/TERMINATED");
+        System.out.println("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
+        logger.info("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
 
+        /**
+         * Discrete event/time simulation
+         * curTick: current time tick, simTotalTime: total time allowed for simulation
+         */
+        for (int curTick = 0; curTick < this.simTotalTime; curTick++){
+            simCurTick = curTick;
+
+            System.out.println("[" + this.getClass().getSimpleName() + ":startSimulation()] curSimTick: " + simCurTick);
+            logger.info("[" + this.getClass().getSimpleName() + ":startSimulation()] curSimTick: " + simCurTick);
+            System.out.println("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
+            logger.info("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
+        }
+
+
+        System.out.println("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
+        logger.info("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
+
+        //TODO: Summary of Simulation
+
+        System.out.println("[" + this.getClass().getSimpleName() + ":startSimulation()] SIMULATION FINISHED/TERMINATED.");
+        logger.info("[" + this.getClass().getSimpleName() + ":startSimulation()] SIMULATION FINISHED/TERMINATED.");
         return null;
+    }
+
+
+
+
+    /**
+     * A method to initialize SimEngine
+     *
+     * @param simModel          Simulation model to be simulated
+     * @param isMapeOn          Mape mode (T/F)
+     * @param simScenario       Simulation scenario to be executed by this SimEngine
+     * @param simConfiguration  Simulation configuration for this simulation
+     * @param simMapInitFile    Map initialization file to initialize an SoSMap of SimModel
+     * @param simRules          A list of rules (policies) to be simulated
+     */
+    private void initSimEngine(SoS simModel,
+                               boolean isMapeOn,
+                               SimScenario simScenario,
+                               SimConfiguration simConfiguration,
+                               String simMapInitFile,
+                               ArrayList<_SimRule_> simRules){
+
+        //Initialize simModel (simModel is a mandatory input)
+        if (simModel != null){
+            initSimModel(simModel, simMapInitFile);
+
+            System.out.println("[" + this.getClass().getSimpleName() + ":initSimEngine()] simModel is initialized.");
+            logger.info("[" + this.getClass().getSimpleName() + ":initSimEngine()] simModel is initialized.");
+
+            this.isMapeOn = isMapeOn;
+
+            //Make an instance of MapeEngine if isMapeOn is true
+            if (isMapeOn){
+                mapeEngine = new MapeEngine();
+            }
+
+            //Initialize simScenario
+            if (simScenario != null){
+                initSimScenario(simScenario);
+
+                System.out.println("[" + this.getClass().getSimpleName() + ":initSimEngine()] simScenario is initialized.");
+                logger.info("[" + this.getClass().getSimpleName() + ":initSimEngine()] simScenario is initialized.");
+            }else{
+                logger.info("[" + this.getClass().getSimpleName() + ":initSimEngine()] A simulation scenario (SimScenario) is not given.");
+            }
+
+            //Initialize simModel
+            if (simConfiguration != null){
+                initSimConfiguration(simConfiguration);
+
+                System.out.println("[" + this.getClass().getSimpleName() + ":initSimEngine()] simConfiguration is initialized.");
+                logger.info("[" + this.getClass().getSimpleName() + ":initSimEngine()] simConfiguration is initialized.");
+            }else{
+                logger.info("[" + this.getClass().getSimpleName() + ":initSimEngine()] A simulation configuration (SimConfiguration) is not given.");
+            }
+
+            //Initialize simModel
+            if (simRules != null){
+                initSimRules(simRules);
+
+                System.out.println("[" + this.getClass().getSimpleName() + ":initSimEngine()] simRules are initialized.");
+                logger.info("[" + this.getClass().getSimpleName() + ":initSimEngine()] simRules are initialized.");
+            }else{
+                logger.info("[" + this.getClass().getSimpleName() + ":initSimEngine()] Simulation rules (SimRules) is not given.");
+            }
+        }else{
+            //If there is no simulation model, warning message is logged.
+            logger.warning("[" + this.getClass().getSimpleName() + ":initSimEngine()] A simulation model (SimModel) is not given.");
+        }
+
+
+    }
+
+    /**
+     * A method to initialize
+     * @param simModel  Simulation model to be simulated
+     */
+    private void initSimModel(SoS simModel, String simMapInitFile){
+        this.simModel = simModel;
+
+        //If there is a map initialization file, initialize SoSMap based on the simMapInitFile
+        if (simMapInitFile != null){
+            //simModel.getSoSMap().initMap(simMapInitFile);
+        }
+    }
+
+    /**
+     * A method to initialize
+     * @param simScenario   Simulation scenario to be executed by this SimEngine
+     */
+    private void initSimScenario(SimScenario simScenario){
+        this.simScenario = simScenario;
+    }
+
+    /**
+     * A method to initialize
+     * @param simConfiguration  Simulation configuration for this simulation
+     */
+    private void initSimConfiguration(SimConfiguration simConfiguration){
+        this.simConfig = simConfiguration;
+
+        //Set the total time allowed for simulation based on simConfiguration
+        simTotalTime = simConfig.getSimTotalTime();
+    }
+
+    /**
+     * A method to initialize
+     * @param simRules  A list of rules (policies) to be simulated
+     */
+    private void initSimRules(ArrayList<_SimRule_> simRules){
+        this.simRules = simRules;
     }
 
 
@@ -118,7 +255,6 @@ public class SimEngine {
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss", Locale.KOREA );
         Date currentTime = new Date ( );
         String dTime = formatter.format ( currentTime );
-        System.out.println ( dTime );
 
 
         try {
@@ -151,7 +287,6 @@ public class SimEngine {
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss", Locale.KOREA );
         Date currentTime = new Date ( );
         String dTime = formatter.format ( currentTime );
-        System.out.println ( dTime );
 
         logFile = new File("SimModelLog_" + dTime + ".log");
 
@@ -162,8 +297,9 @@ public class SimEngine {
 
             String currentPath = new java.io.File(".").getCanonicalPath();
             outputWriter.write(currentPath + "\\SimModelLog.log" + lineSeparator);
-            outputWriter.write("> last update:" + timestamp + lineSeparator);
-            outputWriter.write("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" + lineSeparator);
+            outputWriter.write("> last update: " + timestamp + lineSeparator);
+            outputWriter.write("> simEngine ver: " + simEngineVer + lineSeparator);
+            outputWriter.write("──────────────────────────────────────────────────────────────────" + lineSeparator);
             outputWriter.flush();
 
         } catch (IOException e) {
@@ -194,4 +330,12 @@ public class SimEngine {
             return false;
         }
     }
+
+//    /**
+//     * A method to get the name of currently running method
+//     * @return  Method name
+//     */
+//    private static String getCurMethodName(){
+//        return Thread.currentThread().getStackTrace()[1].getMethodName();
+//    }
 }

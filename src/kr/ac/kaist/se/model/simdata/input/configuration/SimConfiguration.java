@@ -10,4 +10,12 @@ public class SimConfiguration {
     public SimConfiguration(int simTotalTime) {
         this.simTotalTime = simTotalTime;
     }
+
+    public int getSimTotalTime() {
+        return simTotalTime;
+    }
+
+    public void setSimTotalTime(int simTotalTime) {
+        this.simTotalTime = simTotalTime;
+    }
 }

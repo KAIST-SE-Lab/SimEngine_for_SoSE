@@ -41,12 +41,17 @@ public class Execution {
                             String simMapInitFile,
                             ArrayList<_SimRule_> simRules) {
 
-        System.out.println("┌──────────────────────────────────────────────────────────────────┐");
-        System.out.println(" Execution:main() method is executed");
-        System.out.println("└──────────────────────────────────────────────────────────────────┘");
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println("· Execution:main() method is executed");
+        System.out.println("· \tsimModel: " + simModel);
+        System.out.println("· \tsimScenario: " + simScenario);
+        System.out.println("· \tsimConfiguration: " + simConfiguration);
+        System.out.println("· \tsimMapInitFile: " + simMapInitFile);
+        System.out.println("· \tsimRules: " + simRules);
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────────");
 
         //Create a simEngine and initialize with required inputs
-        SimEngine simEngine = new SimEngine(null, false, simScenario, simConfiguration, null, null);
+        SimEngine simEngine = new SimEngine(simModel, false, simScenario, simConfiguration, null, null);
 
         //Start simulation with the simEngine
         simEngine.startSimulation();

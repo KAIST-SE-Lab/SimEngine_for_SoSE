@@ -1,5 +1,8 @@
 package kr.ac.kaist.se.controller.sim;
 
+import kr.ac.kaist.se.model.simdata.input.configuration.SimConfiguration;
+import kr.ac.kaist.se.model.simdata.input.rule._SimRule_;
+import kr.ac.kaist.se.model.simdata.input.scenario.SimScenario;
 import kr.ac.kaist.se.model.simdata.output.SimLog;
 import kr.ac.kaist.se.model.simmodel.SoS;
 
@@ -8,7 +11,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.FileHandler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -39,22 +45,50 @@ public class SimEngine {
     /* Record of SimLogEvents */
     private BufferedWriter outputWriter = null;
     private final String lineSeparator = System.getProperty("line.separator");
-    private final File logFile = new File("SimModelLog.log");
+    private File logFile = new File("SimModelLog.log");
 
 
     /* Simulation Inputs */
     private SoS simModel;
-//    private SimConfiguration simConfig = new SimConfiguration();
-//    private SimScenario simScenario = new SimScenario();
+    private SimConfiguration simConfig;
+    private SimScenario simScenario;
     private boolean isMapeOn;
+    private ArrayList<_SimRule_> simRules;
+
+    /* Simulation Attributes */
 
 
-    public SimEngine(SoS simModel, boolean isMapeOn) {
-        this.simModel = simModel;
-        this.isMapeOn = isMapeOn;
+
+    /**
+     * Constructor of SimEngine
+     *
+     * @param simModel
+     * @param isMapeOn
+     * @param simScenario
+     * @param simConfiguration
+     * @param simMapInitFile
+     * @param simRules
+     */
+    public SimEngine(SoS simModel,
+                     boolean isMapeOn,
+                     SimScenario simScenario,
+                     SimConfiguration simConfiguration,
+                     String simMapInitFile,
+                     ArrayList<_SimRule_> simRules) {
 
         initLogger();
         writeSimEngineInfo();
+
+        if (simModel == null){
+            logger.warning("A simulation model (SimModel) is not given.");
+        }else{
+            this.simModel = simModel;
+            this.isMapeOn = isMapeOn;
+            this.simConfig = simConfiguration;
+            this.simScenario = simScenario;
+            this.simRules = simRules;
+        }
+
     }
 
 
@@ -81,8 +115,14 @@ public class SimEngine {
      * @return
      */
     private boolean initLogger(){
+        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss", Locale.KOREA );
+        Date currentTime = new Date ( );
+        String dTime = formatter.format ( currentTime );
+        System.out.println ( dTime );
+
+
         try {
-            fileHandler = new FileHandler("SimEngineLog.log");
+            fileHandler = new FileHandler("SimEngineLog_" + dTime + ".log");
             logger.addHandler(fileHandler);
             logger.setUseParentHandlers(false);
 
@@ -108,6 +148,13 @@ public class SimEngine {
      * A method to write meta-information of SimEngine log file
      */
     private void writeSimEngineInfo(){
+        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss", Locale.KOREA );
+        Date currentTime = new Date ( );
+        String dTime = formatter.format ( currentTime );
+        System.out.println ( dTime );
+
+        logFile = new File("SimModelLog_" + dTime + ".log");
+
         try {
             outputWriter = new BufferedWriter(new FileWriter(logFile));
 

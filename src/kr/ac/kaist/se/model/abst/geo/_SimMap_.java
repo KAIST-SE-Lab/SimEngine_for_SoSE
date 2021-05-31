@@ -20,14 +20,74 @@ public abstract class _SimMap_ {
     protected String initFile;
 
     /** ArrayLists for MapDimensions and MapInformation */
-    private ArrayList<DimVar> dimVars = new ArrayList<>();         //LocDimensions of this map
-    private ArrayList<DataVar> dataVars = new ArrayList<>();       //LocInformations of this map
-    private int numOfDims;
+    protected ArrayList<DimVar> dimVars = new ArrayList<>();         //LocDimensions of this map
+    protected ArrayList<DataVar> dataVars = new ArrayList<>();       //LocInformations of this map
+    protected int numOfDims;
 
     /** Initialization of map */
     protected HashMap<String, ArrayList<DataVar>> locInfo = new HashMap<>(); //HashMap to store location information
 
 
+
+    /**
+     * A method for initialization of map dimensions (mapDimVars)
+     * This method depends on dimensionVars defined for a concrete map
+     */
+    protected abstract void initMapDimensions();
+
+    /**
+     * Initialization of map data variables (mapDataVars)
+     * This method depends on dimensionVars defined for a concrete map
+     */
+    protected abstract void initMapInformation();
+
+
+    /**
+     * A method to add a DimVar into mapDimVars
+     * @param aDimVar DimVar to be added
+     */
+    protected void addDimVar(DimVar aDimVar){
+        boolean isDuplicate = false;
+        for (DimVar dimVar : dimVars){
+            if (aDimVar.getId().equals(dimVar.getId())){
+                isDuplicate = true;
+            }
+        }
+
+        if (!isDuplicate){
+            dimVars.add(aDimVar);
+        }else{
+            System.out.println("[" + this.getClass().getSimpleName() + "] addDimVar failed (duplicate id: " + aDimVar.getId() + ")");
+        }
+    }
+
+    /**
+     * A method to add a DataVar into mapDataVars
+     * @param aDataVar DataVar to be added
+     */
+    protected void addDataVar(DataVar aDataVar){
+        boolean isDuplicate = false;
+        for (DataVar dataVar : dataVars){
+            if (aDataVar.getId().equals(dataVar.getId())){
+                isDuplicate = true;
+            }
+        }
+
+        if (!isDuplicate){
+            dataVars.add(aDataVar);
+        }else{
+            System.out.println("[" + this.getClass().getSimpleName() + "] addDataVar failed (duplicate id: " + aDataVar.getId() + ")");
+        }
+    }
+
+    /**
+     * Get a list of locData with a key
+     * @param key   a key to be searched
+     * @return      A list of locData objects
+     */
+    public ArrayList<DataVar> getLocDataWithKey(String key){
+        return this.locInfo.get(key);
+    }
 
 
     /* GETTERS & SETTERS */

@@ -13,6 +13,11 @@ import java.util.ArrayList;
 public interface Movable {
 
     /**
+     * Initialization of object location
+     */
+    void initObjLocation();
+
+    /**
      * Every Movable has its current location information,
      * thus curLocation can be obtained by calling this method
      *

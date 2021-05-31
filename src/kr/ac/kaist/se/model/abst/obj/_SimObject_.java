@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author ymbaek
  */
-public abstract class _SimObject_ implements Simulatable, Movable, Stateful {
+public abstract class _SimObject_ implements Simulatable, Stateful {
 
     /** Basic information of a SimObject */
     //Universally unique object id (Every SimObject should have its own unique id)
@@ -46,10 +46,7 @@ public abstract class _SimObject_ implements Simulatable, Movable, Stateful {
     protected String objLocation;
 
 
-    /**
-     * Initialization of object location
-     */
-    protected abstract void initObjLocation();
+
 
 
 

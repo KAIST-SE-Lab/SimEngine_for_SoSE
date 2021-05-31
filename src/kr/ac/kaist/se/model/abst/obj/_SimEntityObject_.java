@@ -2,6 +2,7 @@ package kr.ac.kaist.se.model.abst.obj;
 
 import kr.ac.kaist.se.model.abst.comm._SimMessage_;
 import kr.ac.kaist.se.model.intf.Communicateable;
+import kr.ac.kaist.se.model.intf.Movable;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -12,7 +13,7 @@ import java.util.Queue;
  *
  * @author ymbaek
  */
-public abstract class _SimEntityObject_ extends _SimObject_ implements Communicateable {
+public abstract class _SimEntityObject_ extends _SimObject_ implements Movable, Communicateable {
 
     /** Entity-specific attributes */
     protected EnumEntityType entityType;

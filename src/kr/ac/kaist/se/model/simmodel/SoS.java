@@ -1,6 +1,5 @@
 package kr.ac.kaist.se.model.simmodel;
 
-import com.sun.org.apache.bcel.internal.Const;
 import kr.ac.kaist.se.model.abst.obj._SimContainerObject_;
 import kr.ac.kaist.se.model.abst.obj._SimObject_;
 import kr.ac.kaist.se.model.simdata.output.intermediate.RunResult;

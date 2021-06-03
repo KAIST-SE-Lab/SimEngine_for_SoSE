@@ -131,25 +131,15 @@ public class SimEngine {
             logger.info("[" + this.getClass().getSimpleName() + ":startSimulation()] ──────────────────────────────────────────────────────────────────");
 
 
-            /**
-             * PHASE 01: Execute SimScenarioUnivEvent of a given SimScenario
-             */
+            /** PHASE 01: Execute SimScenarioUnivEvent of a given SimScenario */
 
-            /**
-             * PHASE 02: Collect RunResults by running SimModel (and its objects)
-             */
+            /** PHASE 02: Collect RunResults by running SimModel (and its objects) */
 
-            /**
-             * PHASE 03: Resolve conflicts of the RunResult of the current tick
-             */
+            /** PHASE 03: Resolve conflicts of the RunResult of the current tick */
 
-            /**
-             * PHASE 04: Collect communication actions (CommActions) to process message-sending
-             */
+            /** PHASE 04: Collect communication actions (CommActions) to process message-sending */
 
-            /**
-             * PHASE 05: Update SimModel by actually executing the action objects after resolving conflicts (PHASE03)
-             */
+            /** PHASE 05: Update SimModel by actually executing the action objects after resolving conflicts (PHASE03) */
 
         }
 

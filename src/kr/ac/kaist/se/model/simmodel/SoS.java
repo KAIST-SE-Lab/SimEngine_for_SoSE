@@ -292,11 +292,11 @@ public abstract class SoS extends _SimContainerObject_ {
 
     /* GETTERS & SETTERS */
 
-    public SoSMap getSosMap() {
+    public SoSMap getSoSMap() {
         return sosMap;
     }
 
-    public void setSosMap(SoSMap sosMap) {
+    public void setSoSMap(SoSMap sosMap) {
         this.sosMap = sosMap;
     }
 

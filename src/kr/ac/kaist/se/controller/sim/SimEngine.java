@@ -1,10 +1,12 @@
 package kr.ac.kaist.se.controller.sim;
 
 import kr.ac.kaist.se.controller.mape.MapeEngine;
+import kr.ac.kaist.se.controller.util.configuration.ConfigurationManager;
 import kr.ac.kaist.se.controller.util.map.MapManager;
+import kr.ac.kaist.se.controller.util.rule.RuleManager;
 import kr.ac.kaist.se.controller.util.scenario.ScenarioManager;
 import kr.ac.kaist.se.model.simdata.input.configuration.SimConfiguration;
-import kr.ac.kaist.se.model.simdata.input.rule._SimRule_;
+import kr.ac.kaist.se.model.simdata.input.rule.SimRule;
 import kr.ac.kaist.se.model.simdata.input.scenario.SimScenario;
 import kr.ac.kaist.se.model.simdata.output.SimLog;
 import kr.ac.kaist.se.model.simmodel.SoS;
@@ -58,7 +60,7 @@ public class SimEngine {
     private SoS simModel;                   // Simulation model
     private SimConfiguration simConfig;     // Simulation configuration
     private SimScenario simScenario;        // Simulation scenario
-    private ArrayList<_SimRule_> simRules;  // Rules / Policies
+    private ArrayList<SimRule> simRules;  // Rules / Policies
 
     private boolean isMapeOn;               // Whether MAPE-loop is executed
     private MapeEngine mapeEngine;          // MAPE engine
@@ -69,8 +71,10 @@ public class SimEngine {
 
 
     /* Utilities */
-    private ScenarioManager scenarioManager;
-    private MapManager mapManager;
+    private ConfigurationManager configurationManager;  // Controller for managing configurations
+    private ScenarioManager scenarioManager;            // Controller for managing scenarios
+    private MapManager mapManager;                      // Controller for managing maps
+    private RuleManager ruleManager;                    // Controller for managing rules (rule set)
 
 
     /**
@@ -88,7 +92,7 @@ public class SimEngine {
                      SimScenario simScenario,
                      SimConfiguration simConfiguration,
                      String simMapInitFile,
-                     ArrayList<_SimRule_> simRules) {
+                     ArrayList<SimRule> simRules) {
 
         // Initialize loggers and write SimEngine information into the log file
         initLogger();
@@ -173,7 +177,7 @@ public class SimEngine {
                                SimScenario simScenario,
                                SimConfiguration simConfiguration,
                                String simMapInitFile,
-                               ArrayList<_SimRule_> simRules){
+                               ArrayList<SimRule> simRules){
 
         //Initialize simModel (simModel is a mandatory input)
         if (simModel != null){
@@ -236,6 +240,9 @@ public class SimEngine {
         //If there is a map initialization file, initialize SoSMap based on the simMapInitFile
         if (simMapInitFile != null){
             //simModel.getSoSMap().initMap(simMapInitFile);
+
+            //TODO: Read map using MapMapanger
+            mapManager = new MapManager(simModel.getSoSMap(), simMapInitFile);
         }
     }
 
@@ -247,7 +254,7 @@ public class SimEngine {
         this.simScenario = simScenario;
 
         //TODO: Read scenario using ScenarioManager
-        scenarioManager = new ScenarioManager();
+        scenarioManager = new ScenarioManager(simScenario);
     }
 
     /**
@@ -259,14 +266,20 @@ public class SimEngine {
 
         //Set the total time allowed for simulation based on simConfiguration
         simTotalTime = simConfig.getSimTotalTime();
+
+        //TODO: Read configuration using ConfigurationManager
+        configurationManager = new ConfigurationManager(simConfiguration);
     }
 
     /**
      * A method to initialize
      * @param simRules  A list of rules (policies) to be simulated
      */
-    private void initSimRules(ArrayList<_SimRule_> simRules){
+    private void initSimRules(ArrayList<SimRule> simRules){
         this.simRules = simRules;
+
+        //TODO: Read rules using RuleManager
+        ruleManager = new RuleManager(simRules);
     }
 
 

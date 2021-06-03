@@ -2,7 +2,7 @@ package kr.ac.kaist.se;
 
 import kr.ac.kaist.se.controller.sim.SimEngine;
 import kr.ac.kaist.se.model.simdata.input.configuration.SimConfiguration;
-import kr.ac.kaist.se.model.simdata.input.rule._SimRule_;
+import kr.ac.kaist.se.model.simdata.input.rule.SimRule;
 import kr.ac.kaist.se.model.simdata.input.scenario.SimScenario;
 import kr.ac.kaist.se.model.simmodel.SoS;
 
@@ -39,7 +39,7 @@ public class Execution {
                             SimScenario simScenario,
                             SimConfiguration simConfiguration,
                             String simMapInitFile,
-                            ArrayList<_SimRule_> simRules) {
+                            ArrayList<SimRule> simRules) {
 
         System.out.println("────────────────────────────────────────────────────────────────────────────────────────────────");
         System.out.println("· Execution:main() method is executed");
